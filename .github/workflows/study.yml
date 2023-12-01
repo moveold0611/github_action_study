@@ -69,7 +69,7 @@ jobs:
           host: ${{ env.STOPPED_IP }}
           key: ${{ secrets.EC2_SSH_KEY }}
           script_stop: true
-          script: docker pull ${{ secrets.DOCKERHUB_USERNAME }}/server:latest
+          script: sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/server:latest
       - name: Docker compose
         uses: appleboy/ssh-action@master
         with:
