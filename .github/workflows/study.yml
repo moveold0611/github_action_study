@@ -38,23 +38,23 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Set target IP
-        run:
+        run: |
           CURRENT_UPSTREAM=$(curl -s "http://${{ secrets.NGINX_IP }}/env")
           echo $CURRENT_UPSTREAM
           if [ $STATUS -eq 404 ]; then
             CURRENT_UPSTREAM=blue
-          fi          
+          fi
           if [ $STATUS -eq 400 ]; then
             CURRENT_UPSTREAM=blue
           fi
-          if [ $CURRENT_UPSTREAM -ne blue -o $CURRENT_UPSTREAM -ne green ]; then
+          if [ "$CURRENT_UPSTREAM" != "blue" ] && [ "$CURRENT_UPSTREAM" != "green" ]; then
             CURRENT_UPSTREAM=blue
           fi
-          if [ $CURRENT_UPSTREAM -eq blue ]; then
+          if [ "$CURRENT_UPSTREAM" = "blue" ]; then
             echo "CURRENT_IP=${{ secrets.BLUE_IP }}" >> $GITHUB_ENV
             echo "STOPPED_IP=${{ secrets.GREEN_IP }}" >> $GITHUB_ENV
             echo "TARGET_UPSTREAM=green" >> $GITHUB_ENV
-          elif [ $CURRENT_UPSTREAM -eq green ]; then
+          elif [ "$CURRENT_UPSTREAM" = "green" ]; then
             echo "CURRENT_IP=${{ secrets.GREEN_IP }}" >> $GITHUB_ENV
             echo "STOPPED_IP=${{ secrets.BLUE_IP }}" >> $GITHUB_ENV
             echo "TARGET_UPSTREAM=blue" >> $GITHUB_ENV
