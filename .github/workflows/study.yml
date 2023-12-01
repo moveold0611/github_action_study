@@ -41,6 +41,12 @@ jobs:
         run:
           CURRENT_UPSTREAN=$(curl -s "http://${{ secrets.NGINX_IP }}/env")
           echo $CURRENT_UPSTREAN
+          if [ $STATUS -eq 404 ]; then
+            CURRENT_UPSTREAN=blue
+          fi          
+          if [ $STATUS -eq 400 ]; then
+            CURRENT_UPSTREAN=blue
+          fi
           if [ $CURRENT_UPSTREAM -ne blue -o $CURRENT_UPSTREAM -ne green ]; then
             CURRENT_UPSTREAN=blue
           fi
