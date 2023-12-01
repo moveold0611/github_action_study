@@ -38,7 +38,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Set target IP
-        run: 
+        run: |
           CURRENT_UPSTREAM=$(curl -s "http://${{ secrets.NGINX_IP }}/env")
           echo $CURRENT_UPSTREAM
           if [ $STATUS -eq 404 ]; then
@@ -94,7 +94,7 @@ jobs:
         uses: appleboy/ssh-action@master
         with:
           username: ubuntu
-          host: ${{ env.NGINX_IP }}
+          host: ${{ secrets.NGINX_IP }}
           key: ${{ secrets.EC2_SSH_KEY }}
           script_stop: true
           script: 
